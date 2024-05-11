@@ -104,7 +104,6 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
                 raise (Exception)
         
         if environ.get('MERCADOPAGO_EMAIL') and environ.get('MERCADOPAGO_TOKEN'):
-            print('passou pelo mercadopago')
             try:
                 uuid_cobranca = uuid4()
                 WEBHOOK_DOMAIN = 'https://teste.com.br'

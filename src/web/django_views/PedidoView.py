@@ -20,7 +20,7 @@ class PedidoView(APIView):
 
     @extend_schema(summary='Obtém lista de pedidos', examples=[
         OpenApiExample('Exemplo de pedido', value=[{
-            "id": 1,
+            "numero": 1,
             "cpf": "12345678901",
             "valor": 10.90,
             "status": "aguardando_pagamento",
@@ -48,14 +48,14 @@ class PedidoView(APIView):
             "cpf": "12345678901",
             "lista_itens": [
                 {
-                    "id": 1,
+                    "id": "24731448-5c63-4a62-9e43-cd3196abb51f",
                     "quantidade": 1
                 }
             ]
         }, request_only=True),
         OpenApiExample('Exemplo de pedido', value=
             [
-                {"id": 1,
+                {"numero": 1,
                 "cpf": "12345678901",
                 "valor": 10.90,
                 "status": "aguardando_pagamento",
