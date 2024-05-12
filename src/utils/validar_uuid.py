@@ -11,7 +11,7 @@ def validar_uuid(uuid: str | UUID):
         try:
             uuid_validado = UUID(uuid)
             return uuid_validado
-        except Exception as e:
-            raise AttributeError("Formato de uuid inválido." + e)
+        except Exception:
+            raise AttributeError("Formato de uuid inválido.")
     else:
         raise AttributeError("Formato de uuid inválido.")
