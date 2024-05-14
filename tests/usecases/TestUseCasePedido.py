@@ -2,6 +2,7 @@ from unittest.mock import Mock, patch
 import unittest
 from src.usecases.UseCasePedido import UseCasePedido
 from src.entities.PedidoFactory import PedidoFactory
+from src.entities.Pedido import Pedido
 
 
 class TestUseCasePedido(unittest.TestCase):
@@ -28,6 +29,21 @@ class TestUseCasePedido(unittest.TestCase):
         lista_pedidos = [PedidoFactory.fromDict(dicionario_pedido=self.dicionario_pedido)]
         mock_pedido_repository.listPedido.return_value = lista_pedidos
 
-        UseCasePedido.obterListaPedidos(mock_pedido_repository)
+        retorno_lista = UseCasePedido.obterListaPedidos(mock_pedido_repository)
+        self.assertIsInstance(retorno_lista, list)
 
+    @patch('src.usecases.UseCasePedido.PedidoRepositoryInterface')
+    def test_criar_pedido(self, mock_pedido_repository):
+        pedido = PedidoFactory.fromDict(dicionario_pedido=self.dicionario_pedido)
+        mock_pedido_repository.addPedidoFromDict.return_value = pedido
 
+        pedido_retorno = UseCasePedido.criarPedidoFromDict(mock_pedido_repository, self.dicionario_pedido)
+        self.assertIsInstance(pedido_retorno, Pedido)
+
+    @patch('src.usecases.UseCasePedido.PedidoRepositoryInterface')
+    def test_obter_pedido(self, mock_pedido_repository):
+        pedido = PedidoFactory.fromDict(dicionario_pedido=self.dicionario_pedido)
+        mock_pedido_repository.getPedido.return_value = pedido
+
+        pedido_retorno = UseCasePedido.obterPedido(mock_pedido_repository, '1')
+        self.assertIsInstance(pedido_retorno, Pedido)

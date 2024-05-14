@@ -5,7 +5,7 @@ from django.test import Client
 from src.entities.PedidoFactory import PedidoFactory
 
 
-class TestPedidoDetalhesView(unittest.TestCase):
+class TestPedidoAtualizarStatusView(unittest.TestCase):
     def setUp(self):
         self.lista_dicionario_item_pedido = [{
             "quantidade": 1,
@@ -21,25 +21,17 @@ class TestPedidoDetalhesView(unittest.TestCase):
             "cpf": "01234567890",
             "lista_itens": self.lista_dicionario_item_pedido,
             "valor": 6.9,
-            "status": "aguardando_pagamento"
+            "status": "recebido"
         }
 
-    @patch('src.web.django_views.PedidoDetalhesView.UseCasePedido')
-    def test_obter_pedido(self, mock_use_case_pedido):
+    @patch('src.web.django_views.PedidoAtualizarStatusView.UseCasePedido')
+    def test_atualizar_status_pedido(self, mock_use_case_pedido):
         pedido = PedidoFactory.fromDict(self.dicionario_pedido)
-        mock_use_case_pedido.obterPedido.return_value = pedido
+        mock_use_case_pedido.atualizarStatusPedido.return_value = pedido
 
         client = Client()
-        response = client.get('/pedido/1/')
+        response = client.post('/pedido/1/atualizarStatus/', data={"status": "recebido"},
+                               content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['valor'], 6.9)
-
-    @patch('src.web.django_views.PedidoDetalhesView.UseCasePedido')
-    def test_obter_pedido_erro(self, mock_use_case_pedido):
-        mock_use_case_pedido.obterPedido.side_effect = Exception('pedido nao encontrado')
-
-        client = Client()
-        response = client.get('/pedido/1/')
-
-        self.assertEqual(response.status_code, 404)

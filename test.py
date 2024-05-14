@@ -14,4 +14,6 @@ from tests.usecases.TestUseCasePedido import *
 from tests.web.django_views.TestClientView import *
 from tests.web.django_views.TestClientDetalhesView import *
 from tests.web.django_views.TestPedidoView import *
+from tests.web.django_views.TestPedidoDetalhesView import *
 from tests.web.django_views.TestCriarUsuarioView import *
+from tests.web.django_views.TestPedidoAtualizarStatusView import *
