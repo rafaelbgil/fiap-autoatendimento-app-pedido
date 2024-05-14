@@ -19,7 +19,7 @@ class ClienteDaoOrm(ClienteDaoInterface):
     def listCliente() -> list[Cliente]:
         clientes_queryset = ClienteModel.objects.all()
         clientes = []
-        for cliente in clientes_queryset.iterator():
+        for cliente in clientes_queryset:
             clientes.append(ClienteFactory.fromDict(
                 dicionario_cliente=cliente.__dict__, validar_campos=False))
         return clientes

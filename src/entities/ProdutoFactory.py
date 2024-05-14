@@ -32,15 +32,15 @@ def _validar_preco_produto(preco: int | float | str, update=False) -> float | No
     if type(preco) == int or type(preco) == float:
         return float(preco)
 
-    if (preco == None or preco == 'None' or len(preco) == 0) and (update == True):
-        return None
-
     if type(preco) == str:
         try:
             return float(preco.replace(',', '.'))
         except:
             raise Exception(
                 'Formato de preco inválido, utilize somente inteiros ou float.')
+
+    if (preco == None or preco == 'None' or len(preco) == 0) and (update == True):
+        return None
 
     raise Exception(
         'Formato de preco inválido, utilize somente inteiros ou float.')
@@ -56,18 +56,18 @@ class ProdutoFactory:
         preco = None
         imagem_url = None
 
-
-        nome = _validar_nome_produto(nome=dicionario_produto['nome'], update=update)
+        nome = _validar_nome_produto(nome=dicionario_produto['nome'], update=False)
         descricao = _validar_descricao_produto(
             descricao=dicionario_produto['descricao'])
-        preco = _validar_preco_produto(preco=dicionario_produto['preco'], update=update)
+        preco = _validar_preco_produto(preco=dicionario_produto['preco'], update=False)
         imagem_url = _validar_imagem_url_produto(
             imagem_url=dicionario_produto['imagem_url'])
-        
+
         if 'id' in dicionario_produto:
             id = dicionario_produto['id']
 
         if 'id_categoria' in dicionario_produto:
             id_categoria = dicionario_produto['id_categoria']
-        
-        return Produto(id=id, nome=nome, descricao=descricao, preco=preco, imagem_url=imagem_url, id_categoria=id_categoria)
+
+        return Produto(id=id, nome=nome, descricao=descricao, preco=preco, imagem_url=imagem_url,
+                       id_categoria=id_categoria)

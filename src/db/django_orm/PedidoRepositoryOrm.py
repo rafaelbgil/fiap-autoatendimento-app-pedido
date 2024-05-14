@@ -94,7 +94,7 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
             item_pedido_orm = ItemPedidoModel()
             item_pedido_orm.pedido = pedido_orm
             item_pedido_orm.nome = item_da_lista.nome
-            item_pedido_orm.descricacao = item_da_lista.descricao
+            item_pedido_orm.descricao = item_da_lista.descricao
             item_pedido_orm.quantidade = item_da_lista.quantidade
             item_pedido_orm.imagem_url = item_da_lista.imagem_url
             item_pedido_orm.preco = item_da_lista.preco

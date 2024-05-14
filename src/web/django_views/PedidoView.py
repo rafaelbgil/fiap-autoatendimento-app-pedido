@@ -4,7 +4,6 @@ from src.usecases.UseCasePedido import UseCasePedido
 from src.presenters.FormatPedido import FormatPedido
 from src.external.cognito.cognito_validate import CognitoValidate
 
-
 from api.serializers import PedidoSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -54,28 +53,28 @@ class PedidoView(APIView):
             ]
         }, request_only=True),
         OpenApiExample('Exemplo de pedido', value=
-            [
-                {"numero": 1,
-                "cpf": "12345678901",
-                "valor": 10.90,
-                "status": "aguardando_pagamento",
-                "lista_produtos": [
-                    {
-                        "id": 1,
-                        "nome": "Hamburguer",
-                        "preco": 10.90,
-                        "imagem_url": 'hamburger.png',
-                        "quantidade": 1
-                    },
-                ]}
-            ],
-        response_only=True)
+        [
+            {"numero": 1,
+             "cpf": "12345678901",
+             "valor": 10.90,
+             "status": "aguardando_pagamento",
+             "lista_produtos": [
+                 {
+                     "id": 1,
+                     "nome": "Hamburguer",
+                     "preco": 10.90,
+                     "imagem_url": 'hamburger.png',
+                     "quantidade": 1
+                 },
+             ]}
+        ],
+                       response_only=True)
     ])
     def post(self, request, format=None):
         """
         Adiciona novo **pedido**
         """
-        print(request.META)
+
         if request.META.get('HTTP_AUTHORIZATION'):
             if 'Bearer' in request.META.get('HTTP_AUTHORIZATION'):
                 header = request.META.get('HTTP_AUTHORIZATION')
