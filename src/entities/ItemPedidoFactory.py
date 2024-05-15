@@ -13,6 +13,7 @@ class ItemPedidoFactory:
                           )
 
     def fromDict(dicionario_item) -> ItemPedido:
+        id = None
         quantidade = 1
         nome = None
         descricao = None
@@ -36,7 +37,10 @@ class ItemPedidoFactory:
         if 'imagem_url' in dicionario_item:
             imagem_url = dicionario_item['imagem_url']
 
-        return ItemPedido(nome=nome,
+        if 'id' in dicionario_item:
+            id = dicionario_item['id']
+
+        return ItemPedido(id=id, nome=nome,
                           descricao=descricao,
                           preco=preco,
                           id_categoria=id_categoria,
