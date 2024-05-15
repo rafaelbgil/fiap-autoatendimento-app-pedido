@@ -5,4 +5,4 @@ sql_app.db
 .coverage
 migrations/
 .idea/
-
+plain.output
