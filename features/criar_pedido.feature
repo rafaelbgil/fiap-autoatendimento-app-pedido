@@ -21,4 +21,4 @@ Funcionalidade: Adicionar Pedido
             '''
         E após a validação os dados estão corretos
         Quando a rotina de criação de pedido por executada
-        Então será retornado o número os detalhes do pedido juntamente com o número
+        Então será retornado o número e os detalhes do pedido

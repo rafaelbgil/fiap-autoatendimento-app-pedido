@@ -2,7 +2,8 @@ from behave import *
 from unittest.mock import Mock
 from json import loads
 from src.entities.PedidoFactory import PedidoFactory
-# from src.db.django_orm.PedidoRepositoryOrm import PedidoRepositoryOrm
+from src.entities.Pedido import Pedido
+
 from src.usecases.UseCasePedido import UseCasePedido
 
 
@@ -27,6 +28,7 @@ def step_impl(context):
         dicionario_pedido=dicionario_pedido_retorno)
 
 
-@then(u'será retornado o número os detalhes do pedido juntamente com o número')
+@then(u'será retornado o número e os detalhes do pedido')
 def step_impl(context):
-    return context.pedido_criado.__dict__
+    assert (isinstance(context.pedido_criado, Pedido))
+
