@@ -14,7 +14,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#CATALOGO_API_URL='http://127.0.0.1:8000'
 CATALOGO_API_URL = os.environ.get('CATALOGO_API_URL')
 if not CATALOGO_API_URL:
     raise Exception('variavel de ambiente CATALOGO_API_URL nao definida!')
@@ -23,12 +22,12 @@ if not CATALOGO_API_URL:
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uqyi33!g1@qde!2!lo(a$%$pdi#%+h!z))g=_+od&11x#a4a=j'
+SECRET_KEY = os.environ.get('DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

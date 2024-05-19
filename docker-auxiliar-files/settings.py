@@ -9,18 +9,20 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
 from pathlib import Path
-from os import environ, path
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CATALOGO_API_URL = os.environ.get('CATALOGO_API_URL')
+if not CATALOGO_API_URL:
+    raise Exception('variavel de ambiente CATALOGO_API_URL nao definida!')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uqyi33!g1@qde!2!lo(a$%$pdi#%+h!z))g=_+od&11x#a4a=j'
+SECRET_KEY = os.environ.get('DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,15 +79,14 @@ WSGI_APPLICATION = 'autoatendimento.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': environ.get('DATABASE_NAME'),
-        'USER': environ.get('DATABASE_USER'),
-        'PASSWORD': environ.get('DATABASE_PASSWORD'),
-        'HOST': environ.get('DATABASE_HOST'),
-        'PORT': environ.get('DATABASE_PORT'),
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
 
@@ -114,17 +115,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
-TIME_ZONE = 'America/Sao_Paulo'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = path.join(BASE_DIR, "static")
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -136,7 +139,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Api Autoatendimento Lanchonete',
-    'DESCRIPTION': 'Api de Autoatendimento de lanchones - Fiap Pos-tech',
+    'DESCRIPTION': 'Api de Autoatendimento de lanchonetes - Fiap Pos-tech',
     'VERSION': '1.0.0',
     'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',

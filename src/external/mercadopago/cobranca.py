@@ -1,4 +1,6 @@
 import datetime
+import uuid
+
 import requests
 from os import environ
 
@@ -17,7 +19,7 @@ class CobrancaMercadoPago:
             data_vencimento.time().__str__()[:8] + '.000-03:00'
         dados_cobranca = {
             "statement_descriptor": "Lanchonete Fiap",
-            "notification_url": url_webhook,
+            #"notification_url": url_webhook,
             "date_of_expiration": data_vencimento_mercadopago,
             "transaction_amount": float(valor),
             "description": descricao,
@@ -28,6 +30,7 @@ class CobrancaMercadoPago:
         }
         header = {
             'Content-Type': 'application/json',
+            'X-Idempotency-Key' : uuid.uuid4().__str__(),
             'Authorization': 'Bearer %s' % (self.token)
         }
         return requests.post('https://api.mercadopago.com/v1/payments', json=dados_cobranca, headers=header)
