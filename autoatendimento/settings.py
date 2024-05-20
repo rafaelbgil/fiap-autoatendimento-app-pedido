@@ -18,6 +18,9 @@ CATALOGO_API_URL = os.environ.get('CATALOGO_API_URL')
 if not CATALOGO_API_URL:
     raise Exception('variavel de ambiente CATALOGO_API_URL nao definida!')
 
+if not os.environ.get('COBRANCA_API_URL'):
+    raise Exception('variavel de ambiente COBRANCA_API_URL nao definida!')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
