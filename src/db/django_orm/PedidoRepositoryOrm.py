@@ -10,11 +10,10 @@ from src.entities.CobrancaFactory import CobrancaFactory
 from src.entities.CategoriaFactory import CategoriaFactory
 from src.entities.TypeCpf import Cpf
 from src.external.catalogo.CatalogoWsImpl import CatalogoWsImpl
-from src.external.mercadopago.cobranca import CobrancaMercadoPago
 
 from api.models import Pedido as PedidoModel
 from api.models import ItemPedido as ItemPedidoModel
-#from api.models import Produto as ProdutoModel
+# from api.models import Produto as ProdutoModel
 from api.models import Cobranca as CobrancaModel
 
 
@@ -50,9 +49,10 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
         if pedido_orm.cobranca_set.exists():
             cobranca_orm = pedido_orm.cobranca_set.get()
             cobranca = CobrancaFactory.createCobranca(
-                valor=cobranca_orm.valor, fornecedor_meio_pagto=cobranca_orm.fornecedor_meio_pagto, codigo=cobranca_orm.codigo, status=cobranca_orm.status, pix_codigo=cobranca_orm.pix_codigo)
+                valor=cobranca_orm.valor, fornecedor_meio_pagto=cobranca_orm.fornecedor_meio_pagto,
+                codigo=cobranca_orm.codigo, status=cobranca_orm.status, pix_codigo=cobranca_orm.pix_codigo)
 
-            pedido.cobranca = cobranca       
+            pedido.cobranca = cobranca
 
         return pedido
 
@@ -67,7 +67,7 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
         # Verifica se produto consultado pelo id existe, cria um objeto ItemPedido e o adiciona a lista_itens
         for item in dicionario_pedido['lista_itens']:
             try:
-                #produto_model = ProdutoModel.objects.get(id=item['id'])
+                # produto_model = ProdutoModel.objects.get(id=item['id'])
                 produto_selecionado = CatalogoWsImpl.obter_produto_por_id(item['id'])
             except:
                 raise Exception(
@@ -76,7 +76,7 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
                 dicionario_item=produto_selecionado.__dict__)
             item_pedido.quantidade = item['quantidade']
             valor_total = valor_total + \
-                (item['quantidade'] * item_pedido.preco)
+                          (item['quantidade'] * item_pedido.preco)
             lista_itens.append(item_pedido)
 
         if 'cpf' in dicionario_pedido:
@@ -102,28 +102,6 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
                 item_pedido_orm.save()
             except:
                 raise (Exception)
-        
-        if environ.get('MERCADOPAGO_EMAIL') and environ.get('MERCADOPAGO_TOKEN'):
-            try:
-                uuid_cobranca = uuid4()
-                WEBHOOK_DOMAIN = 'https://teste.com.br'
-                if environ.get('WEBHOOK_DOMAIN'):
-                    WEBHOOK_DOMAIN = environ.get('WEBHOOK_DOMAIN')
-
-                URL_WEBHOOK = WEBHOOK_DOMAIN + '/api/pedido/mercadopago/' + uuid_cobranca.__str__()    
-                
-                cobranca_mercadopago = CobrancaMercadoPago(token=environ.get('MERCADOPAGO_TOKEN'))
-                retorno_cobranca_mercadopago = cobranca_mercadopago.criarCobranca('pagamento lanchonete fiap', valor=pedido_orm.valor, url_webhook=URL_WEBHOOK)
-                
-                cobranca_orm = CobrancaModel()
-                cobranca_orm.pix_codigo = retorno_cobranca_mercadopago.json()['point_of_interaction']['transaction_data']['qr_code']
-                print('webhook url: %s' % retorno_cobranca_mercadopago.json()['notification_url'])
-                print('Pagamento url: %s' % retorno_cobranca_mercadopago.json()['point_of_interaction']['transaction_data']['ticket_url'])
-                cobranca_orm.pedido = pedido_orm
-                cobranca_orm.valor = pedido_orm.valor
-                cobranca_orm.save()
-            except Exception as erro:
-                raise(erro)
         return PedidoRepositoryOrm.pedidoOrmToPedido(pedido_orm=pedido_orm)
 
     @staticmethod
@@ -150,7 +128,7 @@ class PedidoRepositoryOrm(PedidoRepositoryInterface):
             cobranca_orm = CobrancaModel.objects.get(codigo=uuid_cobranca)
             if dicionario_cobranca['status'] == 'pending':
                 return True
-            if dicionario_cobranca['status'] == 'approved' or dicionario_cobranca['status'] == 'authorized' :
+            if dicionario_cobranca['status'] == 'approved' or dicionario_cobranca['status'] == 'authorized':
                 cobranca_orm.pedido.status = 'recebido'
                 cobranca_orm.status = 'recebido'
                 cobranca_orm.pedido.save()
