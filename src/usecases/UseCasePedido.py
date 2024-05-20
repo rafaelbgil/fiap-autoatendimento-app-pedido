@@ -1,5 +1,7 @@
 from src.entities.Pedido import Pedido
 from .interfaces.PedidoRepositoryInterface import PedidoRepositoryInterface
+from src.external.cobranca.CobrancaApi import CobrancaApi
+
 
 class UseCasePedido:
     def obterListaPedidos(repositorio_pedido: PedidoRepositoryInterface) -> list[Pedido]:
@@ -8,7 +10,7 @@ class UseCasePedido:
         lista_pedidos_preparando = []
         lista_pedidos_entregues = []
         lista_pedidos_aguardando_pagamento = []
-        
+
         for pedido_selecionado in lista_pedidos:
             if pedido_selecionado.status == 'preparando':
                 lista_pedidos_preparando.append(pedido_selecionado)
@@ -23,15 +25,18 @@ class UseCasePedido:
 
         return lista_pedidos_ordenada
 
-    
     def criarPedidoFromDict(repositorio_pedido: PedidoRepositoryInterface, dicionario_pedido: dict) -> Pedido:
-        return repositorio_pedido.addPedidoFromDict(dicionario_pedido=dicionario_pedido)
-    
+        pedido = repositorio_pedido.addPedidoFromDict(dicionario_pedido=dicionario_pedido)
+        if pedido:
+            CobrancaApi.adicionar_cobranca(pedido=pedido)
+        return pedido
+
     def obterPedido(repositorio_pedido: PedidoRepositoryInterface, id: str) -> Pedido:
         return repositorio_pedido.getPedido(id=id)
-    
-    def atualizarStatusPagtoViaWebhook(repositorio_pedido: PedidoRepositoryInterface, pedido: Pedido, status_pagto: str):
+
+    def atualizarStatusPagtoViaWebhook(repositorio_pedido: PedidoRepositoryInterface, pedido: Pedido,
+                                       status_pagto: str):
         return repositorio_pedido.updateStatusPgto(pedido=pedido, status_pgto=status_pagto)
-    
-    def atualizarStatusPedido(repositorio_pedido: PedidoRepositoryInterface, pedido: Pedido, status: str)-> Pedido:
+
+    def atualizarStatusPedido(repositorio_pedido: PedidoRepositoryInterface, pedido: Pedido, status: str) -> Pedido:
         return repositorio_pedido.updateStatus(pedido=pedido, status=status)

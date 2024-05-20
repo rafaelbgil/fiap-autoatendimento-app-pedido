@@ -15,7 +15,7 @@ class PedidoRepositoryInterface(ABC):
         pass
 
     @staticmethod
-    def addPedidoFromDict( dicionario_pedido: dict) -> dict:
+    def addPedidoFromDict( dicionario_pedido: dict) -> Pedido:
         pass
 
     @staticmethod
