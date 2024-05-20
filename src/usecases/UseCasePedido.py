@@ -28,7 +28,8 @@ class UseCasePedido:
     def criarPedidoFromDict(repositorio_pedido: PedidoRepositoryInterface, dicionario_pedido: dict) -> Pedido:
         pedido = repositorio_pedido.addPedidoFromDict(dicionario_pedido=dicionario_pedido)
         if pedido:
-            CobrancaApi.adicionar_cobranca(pedido=pedido)
+            cobrancaApi = CobrancaApi()
+            cobrancaApi.adicionar_cobranca(pedido=pedido)
         return pedido
 
     def obterPedido(repositorio_pedido: PedidoRepositoryInterface, id: str) -> Pedido:
