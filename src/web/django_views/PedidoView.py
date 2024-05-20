@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from drf_spectacular.utils import extend_schema, OpenApiExample
-
+from src.external.cobranca.CobrancaApi import CobrancaApi
 
 class PedidoView(APIView):
     """
@@ -96,4 +96,7 @@ class PedidoView(APIView):
             pedido_dict = FormatPedido.fromPedidoToDict(pedido)
         except Exception as e:
             return Response(data={f'{e}'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        cobranca_api = CobrancaApi()
+        cobranca_api.adicionar_cobranca(pedido=pedido)
         return Response(data=pedido_dict, status=status.HTTP_201_CREATED)
