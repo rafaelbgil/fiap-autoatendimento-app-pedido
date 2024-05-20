@@ -15,4 +15,5 @@ class CobrancaApi:
             "valor": pedido.valor,
             "fornecedor_meio_pagto": "auto"
         }
+        print('pasou pela cobranca')
         return requests.post(url=f'{self.api_url}/cobranca/', json=dados_cobranca)
