@@ -5,7 +5,7 @@ from django.test import Client
 
 
 class TestCriarUsuarioView(unittest.TestCase):
-    @patch('src.web.django_views.CriarUsuarioView.UseCaseCriarUsuario')
+    @patch('src.web.django_views.UsuarioView.UseCaseCriarUsuario')
     def test_criar_usuario(self, mock_use_case_criar_usuario):
         dicionario_usuario = {
             "nome": "Joao silva",
@@ -16,6 +16,6 @@ class TestCriarUsuarioView(unittest.TestCase):
         mock_use_case_criar_usuario.criar.return_value = dicionario_usuario
 
         client = Client()
-        response = client.post('/criar_usuario/', data=dicionario_usuario, content_type='application/json')
+        response = client.post('/usuario/', data=dicionario_usuario, content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
