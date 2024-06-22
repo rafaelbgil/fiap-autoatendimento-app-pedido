@@ -12,7 +12,8 @@ class CognitoValidate:
         aws_client = CognitoValidate.get_aws_client()
         try:
             token_validado = aws_client.get_user(AccessToken=token)
-        except:
-            raise Exception('Token invalido')
+        except Exception as e:
+            print(e)
+            #raise Exception('Token invalido')
 
         return token_validado

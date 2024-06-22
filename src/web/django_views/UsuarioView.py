@@ -7,6 +7,7 @@ from drf_spectacular.utils import extend_schema, OpenApiExample
 from src.entities.ClienteFactory import ClienteFactory
 from src.usecases.UseCaseCriarUsuario import UseCaseCriarUsuario
 from src.external.cognito.create_user_by_lambda import CreateUserCognitoByLambda
+from src.external.cognito.cognito_remove_user import cognito_remove_user
 
 
 class CriarUsuarioView(APIView):
@@ -14,7 +15,7 @@ class CriarUsuarioView(APIView):
 
     def post(self, request, format=None):
         """
-        Api para **autenticar** cliente e receber token
+        Api para **criar** usuario no cognito
         """
         try:
 
@@ -30,3 +31,4 @@ class CriarUsuarioView(APIView):
         except Exception as erro:
             return Response(data={'status': 'erro', 'detalhes': erro.__str__()}, status=status.HTTP_400_BAD_REQUEST)
         return Response(criar_usuario, status=status.HTTP_200_OK)
+

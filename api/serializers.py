@@ -16,7 +16,6 @@ class AuthSerializer(serializers.Serializer):
     usuario = serializers.CharField(max_length=120)
     senha = serializers.CharField(max_length=120)
 
-
 class CriarUsuarioSerializer(serializers.Serializer):
     nome = serializers.CharField(max_length=120)
     senha = serializers.CharField(max_length=120)
