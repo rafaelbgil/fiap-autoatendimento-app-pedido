@@ -32,7 +32,7 @@ class UseCasePedido:
             cobrancaApi.adicionar_cobranca(pedido=pedido)
         return pedido
 
-    def obterPedido(repositorio_pedido: PedidoRepositoryInterface, id: str) -> Pedido:
+    def obterPedido(repositorio_pedido: PedidoRepositoryInterface, id: int) -> Pedido:
         return repositorio_pedido.getPedido(id=id)
 
     def atualizarStatusPagtoViaWebhook(repositorio_pedido: PedidoRepositoryInterface, pedido: Pedido,

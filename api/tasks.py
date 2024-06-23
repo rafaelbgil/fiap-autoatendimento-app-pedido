@@ -12,7 +12,7 @@ def atualizar_status_pagamento_queue(id_pedido: str, status: str):
     try:
         pedido = UseCasePedido.obterPedido(repositorio_pedido=PedidoRepositoryOrm, id=id_pedido)
         if status == 'recebido':
-            UseCasePedido.atualizarStatusPedido(repositorio_pedido=PedidoRepositoryOrm, status='preparando',
+            UseCasePedido.atualizarStatusPedido(repositorio_pedido=PedidoRepositoryOrm, status='recebido',
                                                 pedido=pedido)
         elif status == 'cancelado':
             UseCasePedido.atualizarStatusPedido(repositorio_pedido=PedidoRepositoryOrm, status='cancelado',
