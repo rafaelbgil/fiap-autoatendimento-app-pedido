@@ -15,4 +15,5 @@ https://github.com/rafaelbgil/fiap-autoatendimento-app-pedido/blob/main/relatori
 
 ## Link com a justificativa da escolha do padrão saga
 https://github.com/rafaelbgil/fiap-autoatendimento-app-pedido/blob/main/adrs/adr1.uso_padrao_saga_coreografado.md
+
 [ADR1. Uso do Padrão Saga Coreografado](/adrs/adr1.uso_padrao_saga_coreografado.md)
